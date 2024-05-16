@@ -7,12 +7,13 @@ import {
 
 import "./App.css";
 import Root from "./Root";
+import Home from "./components/Home";
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<Root />}>
-        {/* <Route index element={<Homepage />} />
-        <Route path="/products" element={<ProductCatalogue />} />
+       <Route index element={<Home />} />
+        {/*  <Route path="/products" element={<ProductCatalogue />} />
         <Route path="/login" element={<Login />} >
           <Route index element={<LoginPage />} />
           <Route path="forgot-password" element={<ForgotPassword />} />
