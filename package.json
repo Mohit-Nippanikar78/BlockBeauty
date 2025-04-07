@@ -10,9 +10,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@monaco-editor/react": "^4.7.0",
     "@reduxjs/toolkit": "^1.9.5",
+    "dom-to-image": "^2.6.0",
     "file-saver": "^2.0.5",
-    "html-to-image": "^1.11.11",
+    "html-to-image": "^1.11.13",
+    "immer": "^10.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.1.1",
