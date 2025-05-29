@@ -238,7 +238,7 @@ const BgColorBtn = ({ setBgColor }) => {
                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
                 </svg>
             </button>
-            <div className={`${toggle ? "opacity-100 translate-y-0" : "opacity-0 translate-y-1 pointer-events-none"} absolute left-full ml-2 top-0 z-30 bg-[#2d2d52]/95 divide-y divide-[#353558]/30 rounded-xl shadow-xl border border-[#353558]/50 transition-all duration-200`}>
+            <div className={`${toggle ? "opacity-100 translate-y-0" : "opacity-0 translate-y-1 pointer-events-none"} absolute left-1/2 -translate-x-1/2 top-full mt-2 z-30 bg-[#2d2d52]/95 divide-y divide-[#353558]/30 rounded-xl shadow-xl border border-[#353558]/50 transition-all duration-200`}>
                 <ul className="py-2 text-sm text-gray-200 w-64 grid grid-cols-2">
                     {bgs.map((bg, index) => (
                         <li key={index} onClick={() => { setBgColor(index); setToggle(false) }} className="flex w-full items-center gap-2 hover:bg-[#353558]/50 px-4 py-2.5 cursor-pointer transition-all" role="option">
@@ -269,7 +269,7 @@ const ThemeSelector = ({ theme, setTheme }) => {
                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
                 </svg>
             </button>
-            <div className={`${toggle ? "opacity-100 translate-y-0" : "opacity-0 translate-y-1 pointer-events-none"} absolute left-full ml-2 top-0 z-30 bg-[#2d2d52]/95 divide-y divide-[#353558]/30 rounded-xl shadow-xl border border-[#353558]/50 transition-all duration-200`}>
+            <div className={`${toggle ? "opacity-100 translate-y-0" : "opacity-0 translate-y-1 pointer-events-none"} absolute left-1/2 -translate-x-1/2 top-full mt-2 z-30 bg-[#2d2d52]/95 divide-y divide-[#353558]/30 rounded-xl shadow-xl border border-[#353558]/50 transition-all duration-200`}>
                 <ul className="py-1 text-sm text-gray-200 w-44">
                     {themes.map((t, index) => (
                         <li key={index} onClick={() => { setTheme(t.value); setToggle(false) }} className={`px-4 py-2.5 cursor-pointer hover:bg-[#353558]/50 transition-all flex items-center gap-2 ${theme === t.value ? 'text-pink-300 bg-[#353558]/30 font-medium' : ''}`}>
@@ -300,7 +300,7 @@ const LanguageSelector = ({ language, setLanguage }) => {
                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
                 </svg>
             </button>
-            <div className={`${toggle ? "opacity-100 translate-y-0" : "opacity-0 translate-y-1 pointer-events-none"} absolute left-full ml-2 top-0 z-30 bg-[#2d2d52]/95 divide-y divide-[#353558]/30 rounded-xl shadow-xl border border-[#353558]/50 transition-all duration-200`}>
+            <div className={`${toggle ? "opacity-100 translate-y-0" : "opacity-0 translate-y-1 pointer-events-none"} absolute left-1/2 -translate-x-1/2 top-full mt-2 z-30 bg-[#2d2d52]/95 divide-y divide-[#353558]/30 rounded-xl shadow-xl border border-[#353558]/50 transition-all duration-200`}>
                 <ul className="py-1 text-sm text-gray-200 w-44 max-h-60 overflow-y-auto">
                     {languages.map((lang, index) => (
                         <li key={index} onClick={() => { setLanguage(lang.value); setToggle(false) }} className={`px-4 py-2.5 cursor-pointer hover:bg-[#353558]/50 transition-all flex items-center gap-2 ${language === lang.value ? 'text-green-300 bg-[#353558]/30 font-medium' : ''}`}>
@@ -364,27 +364,42 @@ const PaddingBtn = ({ setActivePad, activePad }) => {
 
 const WidthSelector = ({ width, setWidth }) => {
     const [toggle, setToggle] = useState(false);
+    const [dropUp, setDropUp] = useState(false);
     const dropdownRef = useRef(null);
+    const buttonRef = useRef(null);
     
     useEffect(() => {
         const handleOutsideClick = (event) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target) && buttonRef.current && !buttonRef.current.contains(event.target)) {
                 setToggle(false);
             }
         };
-        
         if (toggle) {
             document.addEventListener('mousedown', handleOutsideClick);
         }
-        
         return () => {
             document.removeEventListener('mousedown', handleOutsideClick);
         };
+    }, [toggle]);
+
+    useEffect(() => {
+        if (toggle && buttonRef.current) {
+            const rect = buttonRef.current.getBoundingClientRect();
+            const popupHeight = 340; // Approximate height of popup
+            const spaceBelow = window.innerHeight - rect.bottom;
+            const spaceAbove = rect.top;
+            if (spaceBelow < popupHeight && spaceAbove > popupHeight) {
+                setDropUp(true);
+            } else {
+                setDropUp(false);
+            }
+        }
     }, [toggle]);
     
     return (
         <div className="flex flex-col relative" ref={dropdownRef}>
             <button 
+                ref={buttonRef}
                 onClick={() => setToggle(v => !v)} 
                 className="w-full bg-[#16163a] hover:bg-[#1e1e48] transition-all font-medium rounded-lg text-sm px-4 py-3 text-left flex items-center justify-between"
                 type="button"
@@ -399,7 +414,7 @@ const WidthSelector = ({ width, setWidth }) => {
                     </svg>
                 </div>
             </button>
-            <div className={`${toggle ? "opacity-100 translate-y-0" : "opacity-0 translate-y-1 pointer-events-none"} absolute left-full ml-2 top-0 z-30 bg-[#2d2d52]/95 divide-y divide-[#353558]/30 rounded-xl shadow-xl border border-[#353558]/50 transition-all duration-200`}>
+            <div className={`${toggle ? "opacity-100 translate-y-0" : "opacity-0 translate-y-1 pointer-events-none"} absolute left-full ml-2 ${dropUp ? 'bottom-0' : 'top-0'} z-30 bg-[#2d2d52]/95 divide-y divide-[#353558]/30 rounded-xl shadow-xl border border-[#353558]/50 transition-all duration-200`}>
                 <div className="w-72 p-5">
                     <div className="flex justify-between items-center mb-4">
                         <h3 className="font-semibold text-white text-base flex items-center gap-2">
@@ -493,27 +508,42 @@ const WidthSelector = ({ width, setWidth }) => {
 
 const HeightSelector = ({ height, setHeight }) => {
     const [toggle, setToggle] = useState(false);
+    const [dropUp, setDropUp] = useState(false);
     const dropdownRef = useRef(null);
+    const buttonRef = useRef(null);
     
     useEffect(() => {
         const handleOutsideClick = (event) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target) && buttonRef.current && !buttonRef.current.contains(event.target)) {
                 setToggle(false);
             }
         };
-        
         if (toggle) {
             document.addEventListener('mousedown', handleOutsideClick);
         }
-        
         return () => {
             document.removeEventListener('mousedown', handleOutsideClick);
         };
+    }, [toggle]);
+
+    useEffect(() => {
+        if (toggle && buttonRef.current) {
+            const rect = buttonRef.current.getBoundingClientRect();
+            const popupHeight = 340; // Approximate height of popup
+            const spaceBelow = window.innerHeight - rect.bottom;
+            const spaceAbove = rect.top;
+            if (spaceBelow < popupHeight && spaceAbove > popupHeight) {
+                setDropUp(true);
+            } else {
+                setDropUp(false);
+            }
+        }
     }, [toggle]);
     
     return (
         <div className="flex flex-col relative" ref={dropdownRef}>
             <button 
+                ref={buttonRef}
                 onClick={() => setToggle(v => !v)} 
                 className="w-full bg-[#16163a] hover:bg-[#1e1e48] transition-all font-medium rounded-lg text-sm px-4 py-3 text-left flex items-center justify-between"
                 type="button"
@@ -528,7 +558,7 @@ const HeightSelector = ({ height, setHeight }) => {
                     </svg>
                 </div>
             </button>
-            <div className={`${toggle ? "opacity-100 translate-y-0" : "opacity-0 translate-y-1 pointer-events-none"} absolute left-full ml-2 top-0 z-30 bg-[#2d2d52]/95 divide-y divide-[#353558]/30 rounded-xl shadow-xl border border-[#353558]/50 transition-all duration-200`}>
+            <div className={`${toggle ? "opacity-100 translate-y-0" : "opacity-0 translate-y-1 pointer-events-none"} absolute left-full ml-2 ${dropUp ? 'bottom-0' : 'top-0'} z-30 bg-[#2d2d52]/95 divide-y divide-[#353558]/30 rounded-xl shadow-xl border border-[#353558]/50 transition-all duration-200`}>
                 <div className="w-72 p-5">
                     <div className="flex justify-between items-center mb-4">
                         <h3 className="font-semibold text-white text-base flex items-center gap-2">
