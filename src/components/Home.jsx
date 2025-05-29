@@ -130,7 +130,7 @@ const Home = () => {
             {/* Sidebar Controls */}
             <div className="w-full md:w-64 h-auto md:h-screen bg-[#242442]/95 border-t md:border-t-0 md:border-r border-[#353558]/40 p-5 flex flex-col gap-4 z-20 md:fixed md:left-0 md:top-0">
                 <div className="text-xl font-bold text-center mb-6 flex items-center justify-center gap-2">
-                    <img src="/public/images/logo.png" alt="BlockBeauty Logo" className="h-10 w-10" />
+                    <img src="/images/logo.png" alt="BlockBeauty Logo" className="h-10 w-10" />
                     <span className="bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent font-bold">BlockBeauty</span>
                 </div>
                 
